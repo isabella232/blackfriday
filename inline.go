@@ -172,6 +172,11 @@ func lineBreak(p *parser, out *bytes.Buffer, data []byte, offset int) int {
 
 	// should there be a hard line break here?
 	if p.flags&EXTENSION_HARD_LINE_BREAK == 0 && !precededByTwoSpaces && !precededByBackslash {
+		// should we convert the newline to a space instead?
+		if p.flags&EXTENSION_NEWLINE_TO_SPACE != 0 {
+			p.r.NormalText(out, []byte(" "))
+			return 1
+		}
 		return 0
 	}
 
